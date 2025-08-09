@@ -70,7 +70,7 @@ const ExperimentTab = ({
             </div>
           </div>
 
-          {/* 양 조절 */}
+          {/* 양 조절 - 직접 입력 시스템 */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <h3 className="text-lg font-semibold text-gray-700 mb-3">3. 용질의 양</h3>
@@ -81,9 +81,9 @@ const ExperimentTab = ({
                       ...currentExperiment, 
                       amount: Math.max(0.1, currentExperiment.amount - 1)
                     })}
-                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 text-sm transition-colors"
+                    className="w-10 h-10 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-md"
                   >
-                    <Minus className="w-3 h-3" />
+                    <Minus className="w-4 h-4" />
                   </button>
                   <input
                     type="number"
@@ -92,28 +92,35 @@ const ExperimentTab = ({
                       const value = Math.max(0.1, Math.min(200, parseFloat(e.target.value) || 0.1));
                       setCurrentExperiment({...currentExperiment, amount: value});
                     }}
-                    className="flex-1 text-center text-2xl font-bold text-blue-600 border-2 border-blue-200 rounded-lg py-2 focus:border-blue-500 focus:outline-none"
+                    className="flex-1 text-center text-2xl font-bold text-blue-600 border-2 border-blue-200 rounded-lg py-3 focus:border-blue-500 focus:outline-none shadow-sm"
                     min="0.1"
                     max="200"
                     step="0.1"
+                    placeholder="0.0"
                   />
                   <button
                     onClick={() => setCurrentExperiment({
                       ...currentExperiment, 
                       amount: Math.min(200, currentExperiment.amount + 1)
                     })}
-                    className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 text-sm transition-colors"
+                    className="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors shadow-md"
                   >
-                    <Plus className="w-3 h-3" />
+                    <Plus className="w-4 h-4" />
                   </button>
                 </div>
                 <div className="text-center text-sm text-gray-600">그램 (g) | 범위: 0.1 ~ 200g</div>
-                <div className="flex gap-1">
+                
+                {/* 프리셋 버튼 */}
+                <div className="grid grid-cols-5 gap-1">
                   {[1, 5, 10, 25, 50].map(preset => (
                     <button
                       key={preset}
                       onClick={() => setCurrentExperiment({...currentExperiment, amount: preset})}
-                      className="flex-1 py-1 px-2 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+                      className={`py-2 px-2 text-xs rounded transition-colors ${
+                        currentExperiment.amount === preset 
+                          ? 'bg-blue-500 text-white' 
+                          : 'bg-gray-100 hover:bg-gray-200'
+                      }`}
                     >
                       {preset}g
                     </button>
@@ -131,9 +138,9 @@ const ExperimentTab = ({
                       ...currentExperiment, 
                       waterVolume: Math.max(10, currentExperiment.waterVolume - 25)
                     })}
-                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 text-sm transition-colors"
+                    className="w-10 h-10 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-md"
                   >
-                    <Minus className="w-3 h-3" />
+                    <Minus className="w-4 h-4" />
                   </button>
                   <input
                     type="number"
@@ -142,28 +149,35 @@ const ExperimentTab = ({
                       const value = Math.max(10, Math.min(1000, parseInt(e.target.value) || 10));
                       setCurrentExperiment({...currentExperiment, waterVolume: value});
                     }}
-                    className="flex-1 text-center text-2xl font-bold text-blue-600 border-2 border-blue-200 rounded-lg py-2 focus:border-blue-500 focus:outline-none"
+                    className="flex-1 text-center text-2xl font-bold text-blue-600 border-2 border-blue-200 rounded-lg py-3 focus:border-blue-500 focus:outline-none shadow-sm"
                     min="10"
                     max="1000"
                     step="5"
+                    placeholder="0"
                   />
                   <button
                     onClick={() => setCurrentExperiment({
                       ...currentExperiment, 
                       waterVolume: Math.min(1000, currentExperiment.waterVolume + 25)
                     })}
-                    className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 text-sm transition-colors"
+                    className="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors shadow-md"
                   >
-                    <Plus className="w-3 h-3" />
+                    <Plus className="w-4 h-4" />
                   </button>
                 </div>
                 <div className="text-center text-sm text-gray-600">밀리리터 (mL) | 범위: 10 ~ 1000mL</div>
-                <div className="flex gap-1">
+                
+                {/* 프리셋 버튼 */}
+                <div className="grid grid-cols-5 gap-1">
                   {[50, 100, 200, 250, 500].map(preset => (
                     <button
                       key={preset}
                       onClick={() => setCurrentExperiment({...currentExperiment, waterVolume: preset})}
-                      className="flex-1 py-1 px-2 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+                      className={`py-2 px-2 text-xs rounded transition-colors ${
+                        currentExperiment.waterVolume === preset 
+                          ? 'bg-blue-500 text-white' 
+                          : 'bg-gray-100 hover:bg-gray-200'
+                      }`}
                     >
                       {preset}mL
                     </button>
@@ -189,7 +203,7 @@ const ExperimentTab = ({
           <button
             onClick={runExperiment}
             disabled={isExperimenting}
-            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:from-blue-600 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:from-blue-600 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             {isExperimenting ? '🧪 실험 진행 중...' : '🚀 실험 시작하기'}
           </button>
@@ -200,15 +214,15 @@ const ExperimentTab = ({
           <h3 className="text-lg font-semibold text-gray-700">5. 실험 과정 관찰</h3>
           
           {(isExperimenting || showAnimation) && (
-            <div className="bg-white border-2 border-blue-200 rounded-lg p-6">
+            <div className="bg-white border-2 border-blue-200 rounded-lg p-6 shadow-lg">
               <div className="text-center mb-4">
-                <div className="text-2xl mb-2">🧪</div>
+                <div className="text-3xl mb-2">🧪</div>
                 <div className="text-lg font-semibold">{getAnimationMessage()}</div>
               </div>
               
-              <div className="w-full bg-gray-200 rounded-full h-3 mb-4">
+              <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
                 <div 
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-1000 progress-bar"
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 h-4 rounded-full transition-all duration-1000 progress-bar"
                   style={{ width: `${experimentProgress}%` }}
                 ></div>
               </div>
@@ -219,12 +233,12 @@ const ExperimentTab = ({
             </div>
           )}
 
-          <div className={`bg-gradient-to-br ${temperatures[currentExperiment.temperature].bgColor} rounded-lg p-6 border-2`}>
+          <div className={`bg-gradient-to-br ${temperatures[currentExperiment.temperature].bgColor} rounded-lg p-6 border-2 shadow-lg`}>
             <div className="text-center">
               <div className="text-4xl mb-4">
                 {isExperimenting && animationStep === 'stirring' ? '🥽🧪💫' : '🧪'}
               </div>
-              <div className="bg-white bg-opacity-80 rounded-lg p-4">
+              <div className="bg-white bg-opacity-90 rounded-lg p-4 shadow-md">
                 <div className="text-lg font-semibold mb-2">실험 조건</div>
                 <div className="space-y-1 text-sm">
                   <div>용질: {substances[currentExperiment.substance].name} {currentExperiment.amount}g</div>
@@ -235,13 +249,13 @@ const ExperimentTab = ({
             </div>
           </div>
 
-          <div className="bg-red-50 p-4 rounded-lg border border-red-200">
-            <h4 className="font-semibold text-red-800 mb-2">⚠️ 실험 안전 수칙</h4>
-            <ul className="text-sm text-red-700 space-y-1">
-              <li>• 뜨거운 물 사용 시 화상 주의</li>
-              <li>• 실험용 장갑과 보안경 착용</li>
-              <li>• 화학물질을 직접 만지지 않기</li>
-              <li>• 실험 후 손 깨끗이 씻기</li>
+          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <h4 className="font-semibold text-blue-800 mb-2">📚 실험 팁</h4>
+            <ul className="text-sm text-blue-700 space-y-1">
+              <li>• 온도가 높을수록 대부분의 물질이 잘 녹습니다</li>
+              <li>• 용질의 양을 늘리면 포화용액이 될 가능성이 높아집니다</li>
+              <li>• 같은 조건으로 여러 번 실험해도 결과는 동일합니다</li>
+              <li>• 다양한 조건으로 실험하여 패턴을 찾아보세요</li>
             </ul>
           </div>
         </div>

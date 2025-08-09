@@ -7,7 +7,6 @@ import ResultsTab from './tabs/ResultsTab';
 import ChallengesTab from './tabs/ChallengesTab';
 import KnowledgeTab from './tabs/KnowledgeTab';
 import AchievementAlert from './modals/AchievementAlert';
-import CertificateModal from './modals/CertificateModal';
 import CelebrationOverlay from './modals/CelebrationOverlay';
 
 const SolubilityLab = () => {
@@ -29,8 +28,6 @@ const SolubilityLab = () => {
   const [completedChallenges, setCompletedChallenges] = useState(new Set());
   const [showCelebration, setShowCelebration] = useState(false);
   const [celebrationType, setCelebrationType] = useState('');
-  const [showCertificate, setShowCertificate] = useState(false);
-  const [certificateData, setCertificateData] = useState(null);
 
   // 실험 결과 계산
   const calculateResult = () => {
@@ -122,7 +119,7 @@ const SolubilityLab = () => {
       
       setTimeout(() => {
         setAchievementAlert(null);
-      }, 5000);
+      }, 8000); // 8초로 연장
     }
     
     setCompletedChallenges(currentCompleted);
@@ -130,18 +127,18 @@ const SolubilityLab = () => {
 
   // 특별 이벤트 트리거
   const triggerSpecialEvent = (challenge) => {
-    if (challenge.difficulty === '전설') {
+    // 단계별 완료 체크
+    const stageCompletion = checkStageCompletion(challenge.difficulty);
+    
+    if (challenge.difficulty === '전설' && stageCompletion.isCompleted) {
       setCelebrationType('legendary');
       setShowCelebration(true);
       setTimeout(() => setShowCelebration(false), 6000);
     }
-    else if (challenge.difficulty === '초급') {
-      const allBeginnerCompleted = challenges.filter(c => c.difficulty === '초급').every(c => c.completed);
-      if (allBeginnerCompleted) {
-        setCelebrationType('beginner_complete');
-        setShowCelebration(true);
-        setTimeout(() => setShowCelebration(false), 4000);
-      }
+    else if (challenge.difficulty === '초급' && stageCompletion.isCompleted) {
+      setCelebrationType('beginner_complete');
+      setShowCelebration(true);
+      setTimeout(() => setShowCelebration(false), 4000);
     }
     else if (challenge.id === 1) {
       setCelebrationType('first_experiment');
@@ -150,47 +147,14 @@ const SolubilityLab = () => {
     }
   };
 
-  // 도전과제별 보상 정보
-  const getRewardForChallenge = (challenge) => {
-    const rewards = {
-      '초급': {
-        type: 'certificate',
-        title: '실험 기초 마스터 인증서',
-        subtitle: '용해도 실험의 첫걸음을 완료했습니다',
-        color: 'from-green-400 to-emerald-600',
-        icon: '🥉',
-        description: '기본적인 실험 과정을 이해하고 성공적으로 수행했습니다.'
-      },
-      '중급': {
-        type: 'certificate', 
-        title: '용해도 연구원 인증서',
-        subtitle: '체계적인 실험 설계와 분석 능력을 인정받았습니다',
-        color: 'from-yellow-400 to-amber-600',
-        icon: '🥈',
-        description: '다양한 조건에서의 실험을 통해 용해도 원리를 깊이 이해했습니다.'
-      },
-      '고급': {
-        type: 'certificate',
-        title: '화학 실험 전문가 인증서', 
-        subtitle: '고도의 실험 기술과 분석력을 보여주었습니다',
-        color: 'from-orange-400 to-red-600',
-        icon: '🥇',
-        description: '정밀한 실험 설계와 뛰어난 결과 분석 능력을 입증했습니다.'
-      },
-      '전설': {
-        type: 'certificate',
-        title: '용해도 박사 명예 학위',
-        subtitle: '용해도 분야의 최고 전문가로 인정받았습니다',
-        color: 'from-purple-400 to-pink-600', 
-        icon: '👑',
-        description: '모든 도전을 완수하며 용해도 과학의 달인이 되었습니다.'
-      }
-    };
-
+  // 단계별 완료 여부 확인
+  const checkStageCompletion = (difficulty) => {
+    const stageChallenges = challenges.filter(c => c.difficulty === difficulty);
+    const completed = stageChallenges.filter(c => c.completed);
     return {
-      ...rewards[challenge.difficulty],
-      challengeTitle: challenge.title,
-      achievementDate: new Date().toLocaleDateString('ko-KR')
+      total: stageChallenges.length,
+      completed: completed.length,
+      isCompleted: completed.length === stageChallenges.length
     };
   };
 
@@ -202,17 +166,8 @@ const SolubilityLab = () => {
         setShowCelebration={setShowCelebration}
       />
       
-      <CertificateModal 
-        showCertificate={showCertificate}
-        certificateData={certificateData}
-        setShowCertificate={setShowCertificate}
-      />
-      
       <AchievementAlert 
         challenge={achievementAlert}
-        getRewardForChallenge={getRewardForChallenge}
-        setCertificateData={setCertificateData}
-        setShowCertificate={setShowCertificate}
         setAchievementAlert={setAchievementAlert}
       />
       
