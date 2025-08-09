@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 커스텀 애니메이션 */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.slide-in-from-right {
+  animation: slideInRight 0.5s ease-out;
+}
+
+.zoom-in {
+  animation: zoomIn 0.3s ease-out;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 실험 진행 막대 애니메이션 */
+.progress-bar {
+  transition: width 1s ease-in-out;
+}
+
+/* 버튼 호버 효과 */
+button:hover {
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}
+
+/* 실험 결과 카드 애니메이션 */
+.result-card {
+  transition: all 0.3s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* 도전과제 완료 효과 */
+.achievement-glow {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+/* 스크롤바 스타일링 */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* 반응형 그리드 */
+@media (max-width: 768px) {
+  .mobile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 다크모드 지원 준비 */
+.dark-mode {
+  background-color: #1f2937;
+  color: #f9fafb;
+}
+
+.dark-mode .bg-white {
+  background-color: #374151;
+}
+
+.dark-mode .text-gray-800 {
+  color: #f9fafb;
+}
+
+.dark-mode .text-gray-600 {
+  color: #d1d5db;
+}
+
+/* 접근성 개선 */
+.focus-visible:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* 프린트 스타일 */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-page-break {
+    page-break-before: always;
+  }
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .high-contrast {
+    border: 2px solid currentColor;
+  }
+}
+
+/* 동작 감소 설정 존중 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
